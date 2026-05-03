@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Sport {
+  CRICKET
+  FOOTBALL
+  TENNIS
+  BASKETBALL
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum PickStatus {
+  PENDING
+  WON
+  LOST
+  VOID
+  HALF_WON
+  HALF_LOST
+  CANCELLED_BEFORE_START
+}
+
+enum AuditAction {
+  CREATED
+  EDITED
+  RESULT_SETTLED
+  CANCELLED
+}
+
+model Slip {
+  id        String   @id @default(cuid())
+  slipId    String   @unique
+  title     String?
+  note      String?
+  createdAt DateTime @default(now())
+  picks     Pick[]
+
+  @@map("slips")
+}
+
+model Pick {
+  id             String     @id @default(cuid())
+  proofId        String     @unique
+  proofSeq       Int        @unique @default(autoincrement())
+
+  slipId         String?
+  slip           Slip?      @relation(fields: [slipId], references: [id])
+  legNumber      Int?
+
+  sport          Sport
+  league         String?
+  matchName      String
+  pickType       String
+  selection      String
+  odds           Float
+  stakeUnit      Float      @default(1)
+  riskLevel      RiskLevel  @default(MEDIUM)
+  reasoning      String?
+
+  eventStartTime DateTime
+  createdAt      DateTime   @default(now())
+  lockedAt       DateTime?
+  settledAt      DateTime?
+
+  status         PickStatus @default(PENDING)
+  isLocked       Boolean    @default(false)
+
+  resultNote     String?
+  sourceLink     String?
+  settledBy      String?
+
+  auditLogs      AuditLog[]
+
+  @@map("picks")
+}
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  pickId      String
+  pick        Pick        @relation(fields: [pickId], references: [id])
+  action      AuditAction
+  fieldName   String?
+  oldValue    String?
+  newValue    String?
+  changedBy   String
+  changedAt   DateTime    @default(now())
+  reason      String?
+  note        String?
+
+  @@map("audit_logs")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+
+  @@map("admins")
+}
+
+model TelegramSubscriber {
+  id         String   @id @default(cuid())
+  chatId     String   @unique
+  username   String?
+  joinedAt   DateTime @default(now())
+  isActive   Boolean  @default(true)
+
+  @@map("telegram_subscribers")
+}

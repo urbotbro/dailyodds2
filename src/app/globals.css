@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Make sure Tailwind dark bg classes work */
+.bg-\[#0a0a0a\] { background-color: #0a0a0a !important; }
+
+select option {
+  background: #1a1a1a;
+  color: #ffffff;
+}
+
+details summary::-webkit-details-marker { display: none; }
+details summary { list-style: none; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+/* ── Mobile responsive ─────────────────────────────────── */
+.pick-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  border: 1px solid #1f1f1f;
+  border-radius: 12px;
+  background: #111;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 8px;
+  transition: border-color 0.15s;
+}
+.pick-card:hover { border-color: #2a2a2a; }
+.pick-card-left { flex: 1; min-width: 0; }
+.pick-card-right { flex-shrink: 0; text-align: right; }
+.pick-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.proof-chip { font-family: monospace; font-size: 10px; color: #555; background: #1a1a1a; padding: 2px 7px; border-radius: 4px; }
+.pick-match { font-size: 15px; font-weight: 600; color: #e5e7eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pick-sel { font-size: 13px; color: #666; margin-top: 2px; }
+.pick-sel strong { color: #aaa; }
+.pick-odds { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+.badge { font-size: 12px; padding: 3px 10px; border-radius: 9999px; font-weight: 600; white-space: nowrap; display: inline-block; }
+
+/* History row — desktop side-by-side, mobile stacked */
+.hist-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  background: #111;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 6px;
+}
+.hist-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.hist-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.hist-match { font-weight: 500; font-size: 14px; color: #e5e7eb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hist-sub { font-size: 12px; color: #555; margin-top: 2px; }
+
+/* Slip card */
+.slip-card { border: 1px solid #2a2440; border-radius: 14px; background: #110d1f; margin-bottom: 10px; overflow: hidden; }
+.slip-header { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e1a2e; flex-wrap: wrap; gap: 8px; }
+.slip-legs { padding: 10px 18px 14px; display: flex; flex-direction: column; gap: 8px; }
+.slip-leg { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; }
+.leg-num { width: 20px; height: 20px; border-radius: 50%; background: #2a2440; color: #a78bfa; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
+@media (max-width: 600px) {
+  .pick-card { flex-direction: column; }
+  .pick-card-right { text-align: left; display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+  .pick-odds { font-size: 18px; margin-bottom: 0; }
+  .pick-match { font-size: 14px; white-space: normal; }
+  .hist-row { flex-direction: column; align-items: flex-start; }
+  .hist-right { justify-content: flex-start; margin-top: 6px; }
+  .slip-header { flex-direction: column; align-items: flex-start; }
+}
